@@ -875,11 +875,14 @@ void GEAComponent::process_packet_(const std::vector<uint8_t> &pkt) {
 
   ESP_LOGV(TAG, "RX frame: dest=0x%02X src=0x%02X len=%zu", dest, src, pkt.size());
 
-  // Drop our own transmissions echoed back on the half-duplex GEA2 bus. A frame
-  // whose SRC is our own address is never a genuine inbound message; without this
-  // guard, broadcast probes (dest=0xFF) would re-enter as phantom packets.
+  // On the half-duplex GEA2 bus, everything we transmit is echoed back on RX.
+  // A frame whose SRC is our own address is never a genuine inbound message, so
+  // drop it before the generic dest filter: otherwise broadcast probes
+  // (dest=0xFF) re-enter as phantom packets, and the echo masquerades as foreign
+  // traffic. Logged at VERBOSE only: it fires on every transmit and is useful
+  // purely as a wiring/echo-path sanity check during deep debugging.
   if (src == src_addr_) {
-    ESP_LOGV(TAG, "Ignoring self-echo (src=0x%02X)", src);
+    ESP_LOGV(TAG, "RX: self-echo (TX loopback) from 0x%02X, dropping", src);
     return;
   }
 
