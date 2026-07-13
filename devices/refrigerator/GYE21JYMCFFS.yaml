@@ -21,6 +21,8 @@ web_server:
   # https://esphome.io/components/web_server.html
 
 api:
+  encryption:
+    key: !secret api_key
 
 ota:
   - platform: esphome
