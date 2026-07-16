@@ -318,21 +318,37 @@ sensor:
     unit_of_measurement: s
     icon: mdi:timer
 
-  - platform: gea
-    gea_id: gea_hub
-    name: Fresh Food Left Door Open Count
-    erd: 0x1101
-    byte_offset: 8
-    decode: uint16_be
-    icon: mdi:counter
+# ---------------------------------------------------------------------------
+#  erd: 0x1101 - Fresh Food Door Open Count
+#  This model doesn't report left and right fresh food doors opening.  This is
+#  doing a of a fresh food section opened count and not individual
+#  Combined into one
+# 
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Fresh Food Left Door Open Count
+#    erd: 0x1101
+#    byte_offset: 8
+#    decode: uint16_be
+#    icon: mdi:counter
+
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Fresh Food Right Door Open Count
+#    erd: 0x1101
+#    byte_offset: 10
+#    decode: uint16_be
+#    icon: mdi:counter
 
   - platform: gea
     gea_id: gea_hub
-    name: Fresh Food Right Door Open Count
+    name: Fresh Food Doors Open Count
     erd: 0x1101
     byte_offset: 10
     decode: uint16_be
     icon: mdi:counter
+
+# ---------------------------------------------------------------------------
 
   - platform: gea
     gea_id: gea_hub
@@ -749,27 +765,46 @@ text_sensor:
       1: Open
       255: Not Applicable
 
-  - platform: gea
-    gea_id: gea_hub
-    name: Fresh Food Left Door Status
-    erd: 0x1016
-    byte_offset: 1
-    decode: uint8
-    options:
-      0: Closed
-      1: Open
-      255: Not Applicable
+# ---------------------------------------------------------------------------
+#  erd: 0x1016 - Fresh Food Door Status
+#  This model doesn't report left and right fresh food doors status.  They are
+#  combined into offset 0 if either door opens then only Offset zero updates
+#  Commented them out and combinded them
+# 
+# 
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Fresh Food Right Door Status
+#    erd: 0x1016
+#    byte_offset: 0
+#    decode: uint8
+#    options:
+#      0: Closed
+#      1: Open
+#      255: Not Applicable
+
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Fresh Food Left Door Status
+#    erd: 0x1016
+#    byte_offset: 1
+#    decode: uint8
+#    options:
+#      0: Closed
+#      1: Open
+#      255: Not Applicable
 
   - platform: gea
     gea_id: gea_hub
-    name: Freezer Door Status
+    name: Fresh Food Doors Status
     erd: 0x1016
-    byte_offset: 2
+    byte_offset: 0
     decode: uint8
     options:
       0: Closed
       1: Open
       255: Not Applicable
+# ---------------------------------------------------------------------------
 
   - platform: gea
     gea_id: gea_hub
