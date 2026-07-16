@@ -194,6 +194,8 @@ sensor:
     byte_offset: 0
     decode: uint8
     unit_of_measurement: "°F"
+    device_class: temperature
+    state_class: measurement
 
   - platform: gea
     gea_id: gea_hub
@@ -202,6 +204,8 @@ sensor:
     byte_offset: 1
     decode: int8
     unit_of_measurement: "°F"
+    device_class: temperature
+    state_class: measurement
     
 
   - platform: gea
