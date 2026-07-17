@@ -7,7 +7,9 @@
 esphome:
   name: ge-profile-fridge
   friendly_name: GE Profile Refrigerator
-
+  project:
+    name: GE.GYE21JYMCFFS
+    version: "1.0.0"
 esp32:
   board: seeed_xiao_esp32c3
   framework:
@@ -32,7 +34,7 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   ap:
-    ssid: ge-profile-frid Fallback Hotspot
+    ssid: "ge-profile-fridge fallback"
     password: !secret ap_password
   on_connect:
     - output.turn_on: led_wifi
@@ -46,8 +48,6 @@ external_components:
       type: local
       path: ../../components
     components: [gea]
-
-
 
 # ---------------------------------------------------------------------------
 # Status LEDs
@@ -82,9 +82,6 @@ uart:
   tx_pin: GPIO9
   rx_pin: GPIO10
   baud_rate: 19200
-  debug:
-    direction: BOTH
-    dummy_receiver: false
 
 # ---------------------------------------------------------------------------
 # GEA2 hub
@@ -94,13 +91,11 @@ gea:
   uart_id: uart_gea
   protocol: gea2
   dest_address: 0xF0
-  gea2_discovery: false
-  erd_lookup: true
 
 # ---------------------------------------------------------------------------
 # Numbers (read-write numeric ERDs)
 # ---------------------------------------------------------------------------
-   
+
 number:
   - platform: gea
     gea_id: gea_hub
@@ -124,7 +119,7 @@ number:
     step: 1
     unit_of_measurement: "°F"
 
-# No Electic Deli Pan Option on this model uses plastic vent sliders
+# No Electric Deli Pan Option on this model uses plastic vent sliders
 #  - platform: gea
 #    gea_id: gea_hub
 #    name: Deli Pan Position 1 Temperature
@@ -156,7 +151,7 @@ sensor:
     name: Refrigerator Minimum Setpoint
     erd: 0x100B
     byte_offset: 0
-    decode: uint8
+    decode: int8
     unit_of_measurement: "°F"
     icon: mdi:thermometer-low
 
@@ -165,7 +160,7 @@ sensor:
     name: Refrigerator Maximum Setpoint
     erd: 0x100B
     byte_offset: 1
-    decode: uint8
+    decode: int8
     unit_of_measurement: "°F"
     icon: mdi:thermometer-high
 
@@ -186,13 +181,13 @@ sensor:
     decode: int8
     unit_of_measurement: "°F"
     icon: mdi:snowflake-thermometer
-  
+
   - platform: gea
     gea_id: gea_hub
     name: Refrigerator Temperature
     erd: 0x1004
     byte_offset: 0
-    decode: uint8
+    decode: int8
     unit_of_measurement: "°F"
     device_class: temperature
     state_class: measurement
@@ -206,7 +201,6 @@ sensor:
     unit_of_measurement: "°F"
     device_class: temperature
     state_class: measurement
-    
 
   - platform: gea
     gea_id: gea_hub
@@ -223,6 +217,7 @@ sensor:
     erd: 0x1009
     byte_offset: 3
     decode: uint16_be
+    unit_of_measurement: d
     icon: mdi:calendar
 
   - platform: gea
@@ -231,6 +226,7 @@ sensor:
     erd: 0x1009
     byte_offset: 5
     decode: uint16_be
+    unit_of_measurement: d
     icon: mdi:calendar-alert
 
   - platform: gea
@@ -241,12 +237,13 @@ sensor:
     decode: uint16_be
     icon: mdi:cup-water
 
-  - platform: gea
-    gea_id: gea_hub
     name: Crushed Ice Dispenses
     erd: 0x1102
     byte_offset: 0
     decode: uint16_be
+    accuracy_decimals: 0
+    state_class: total_increasing
+    entity_category: diagnostic
     icon: mdi:ice-pop
 
   - platform: gea
@@ -366,13 +363,13 @@ sensor:
     decode: uint16_be
     icon: mdi:counter
 
-#ERD 0x1103 - Most Recent Cycle Status 1
   - platform: gea
     gea_id: gea_hub
     name: Last Cycle Start Time
     erd: 0x1103
     byte_offset: 0
     decode: uint32_be
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -381,6 +378,7 @@ sensor:
     byte_offset: 4
     decode: int8
     unit_of_measurement: "°F"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -389,6 +387,7 @@ sensor:
     byte_offset: 5
     decode: int8
     unit_of_measurement: "°F"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -397,6 +396,7 @@ sensor:
     byte_offset: 6
     decode: int8
     unit_of_measurement: "°F"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -405,6 +405,7 @@ sensor:
     byte_offset: 7
     decode: int8
     unit_of_measurement: "°F"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -413,6 +414,7 @@ sensor:
     byte_offset: 8
     decode: int8
     unit_of_measurement: "°F"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -421,6 +423,7 @@ sensor:
     byte_offset: 9
     decode: int8
     unit_of_measurement: "°F"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -429,6 +432,7 @@ sensor:
     byte_offset: 10
     decode: int8
     unit_of_measurement: "°F"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -437,6 +441,7 @@ sensor:
     byte_offset: 11
     decode: int8
     unit_of_measurement: "°F"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -445,6 +450,7 @@ sensor:
     byte_offset: 12
     decode: int8
     unit_of_measurement: "°F"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -453,6 +459,7 @@ sensor:
     byte_offset: 13
     decode: int8
     unit_of_measurement: "°F"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -461,6 +468,7 @@ sensor:
     byte_offset: 14
     decode: int8
     unit_of_measurement: "°F"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -469,6 +477,7 @@ sensor:
     byte_offset: 15
     decode: uint8
     unit_of_measurement: "%"
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -476,14 +485,15 @@ sensor:
     erd: 0x1103
     byte_offset: 16
     decode: uint8    
+    entity_category: diagnostic
 
-#ERD 0x1104 - Most Recent Cycle Status 2
   - platform: gea
     gea_id: gea_hub
     name: Last Cycle Start Time 2
     erd: 0x1104
     byte_offset: 0
     decode: uint32_be
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -493,6 +503,7 @@ sensor:
     decode: uint16_be
     device_class: duration
     unit_of_measurement: s
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -502,6 +513,7 @@ sensor:
     decode: uint16_be
     device_class: duration
     unit_of_measurement: s
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -511,6 +523,7 @@ sensor:
     decode: uint16_be
     device_class: duration
     unit_of_measurement: s
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -520,27 +533,31 @@ sensor:
     decode: uint16_be
     device_class: duration
     unit_of_measurement: s
+    entity_category: diagnostic
 
-  - platform: gea
-    gea_id: gea_hub
-    name: Last Cycle Cooling Features
-    erd: 0x1104
-    byte_offset: 12
-    decode: uint8
-
-  - platform: gea
-    gea_id: gea_hub
-    name: Last Cycle Hot Water Operations
-    erd: 0x1104
-    byte_offset: 13
-    decode: uint8
-
-  - platform: gea
-    gea_id: gea_hub
-    name: Last Cycle Misc Parameters
-    erd: 0x1104
-    byte_offset: 14
-    decode: uint8
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Last Cycle Cooling Features
+#    erd: 0x1104
+#    byte_offset: 12
+#    decode: uint8
+#    entity_category: diagnostic
+#
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Last Cycle Hot Water Operations
+#    erd: 0x1104
+#    byte_offset: 13
+#    decode: uint8
+#    entity_category: diagnostic
+#
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Last Cycle Misc Parameters
+#    erd: 0x1104
+#    byte_offset: 14
+#    decode: uint8
+#    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -550,6 +567,7 @@ sensor:
     decode: uint16_be
     device_class: duration
     unit_of_measurement: s
+    entity_category: diagnostic
 
   - platform: gea
     gea_id: gea_hub
@@ -559,7 +577,8 @@ sensor:
     decode: uint16_be
     device_class: duration
     unit_of_measurement: s
-    
+    entity_category: diagnostic
+
 # ---------------------------------------------------------------------------
 # Text sensors (enum labels / ASCII)
 # ---------------------------------------------------------------------------
@@ -749,6 +768,7 @@ text_sensor:
     name: Water Filter Order Status
     erd: 0x1009
     byte_offset: 1
+    decode: uint8
     options:
       0: Filter Does Not Need To Be Ordered
       1: Filter Needs To Be Ordered
@@ -756,9 +776,9 @@ text_sensor:
 
   - platform: gea
     gea_id: gea_hub
-    name: Fresh Food Right Door Status
+    name: Freezer Door Status
     erd: 0x1016
-    byte_offset: 0
+    byte_offset: 2
     decode: uint8
     options:
       0: Closed
@@ -782,7 +802,7 @@ text_sensor:
 #      0: Closed
 #      1: Open
 #      255: Not Applicable
-
+#
 #  - platform: gea
 #    gea_id: gea_hub
 #    name: Fresh Food Left Door Status
@@ -816,6 +836,29 @@ text_sensor:
       0: Closed
       1: Open
       255: Not Applicable
+
+# These result in 255 - there is only one ice maker and it has a physical on off switch
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Freezer Ice Maker
+#    erd: 0x100A
+#    byte_offset: 0
+#    decode: uint8
+#    options:
+#      0: Off
+#      1: On
+#      255: Not Applicable
+#
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Fresh Food Ice Maker
+#    erd: 0x100A
+#    byte_offset: 1
+#    decode: uint8
+#    options:
+#      0: Off
+#      1: On
+#      255: Not Applicable
 
 # ---------------------------------------------------------------------------
 # Selects (read-write enum ERDs)
@@ -860,29 +903,6 @@ select:
       0: "Off"
       1: "On"
 
-# These result in 255 - there is only one ice maker and it has a physical on off switch
-#  - platform: gea
-#    gea_id: gea_hub
-#    name: Freezer Ice Maker
-#    erd: 0x100A
-#    byte_offset: 0
-#    decode: uint8
-#    options:
-#      0: Off
-#      1: On
-#      255: Not Applicable
-#
-#  - platform: gea
-#    gea_id: gea_hub
-#    name: Fresh Food Ice Maker
-#    erd: 0x100A
-#    byte_offset: 1
-#    decode: uint8
-#    options:
-#      0: Off
-#      1: On
-#      255: Not Applicable
-
 # ---------------------------------------------------------------------------
 # Binary sensors
 # ---------------------------------------------------------------------------
@@ -891,25 +911,25 @@ binary_sensor:
     gea_id: gea_hub
     name: Fresh Food Door Alarm
     erd: 0x1006
-    bitmask: 0x01        # bit 0
+    bitmask: 0x01
 
   - platform: gea
     gea_id: gea_hub
     name: Freezer Door Alarm
     erd: 0x1006
-    bitmask: 0x02        # bit 1
+    bitmask: 0x02
 
   - platform: gea
     gea_id: gea_hub
     name: Convertible Drawer Alarm
     erd: 0x1006
-    bitmask: 0x04        # bit 2
+    bitmask: 0x04
 
   - platform: gea
     gea_id: gea_hub
     name: Door-In-Door Alarm
     erd: 0x1006
-    bitmask: 0x08        # bit 3
+    bitmask: 0x08
 
   - platform: gea
     gea_id: gea_hub
@@ -919,21 +939,23 @@ binary_sensor:
 
   - platform: gea
     gea_id: gea_hub
-    name: Freezer Ice Maker Present
-    erd: 0x1007
-    bitmask: 0x02
-
-  - platform: gea
-    gea_id: gea_hub
     name: Fresh Food Ice Bucket Full
     erd: 0x1007
     bitmask: 0x04
 
-  - platform: gea
-    gea_id: gea_hub
-    name: Freezer Ice Bucket Full
-    erd: 0x1007
-    bitmask: 0x08
+# ---------------------------------------------------------------------------
+# There is not a freezer Ice Bucket in this model
+# ---------------------------------------------------------------------------
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Freezer Ice Bucket Full
+#    erd: 0x1007
+#    bitmask: 0x08
+#
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Freezer Ice Maker Present
+#    erd: 0x1007
+#    bitmask: 0x02
+# ---------------------------------------------------------------------------
 
-
-    
