@@ -320,6 +320,9 @@ sensor:
     decode: uint32_be
     device_class: duration
     unit_of_measurement: s
+    accuracy_decimals: 0
+    state_class: total_increasing
+    entity_category: diagnostic
     icon: mdi:timer
 
   - platform: gea
@@ -330,6 +333,9 @@ sensor:
     decode: uint32_be
     device_class: duration
     unit_of_measurement: s
+    accuracy_decimals: 0
+    state_class: total_increasing
+    entity_category: diagnostic
     icon: mdi:timer
 
 # ---------------------------------------------------------------------------
