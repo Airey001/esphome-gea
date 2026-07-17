@@ -235,8 +235,13 @@ sensor:
     erd: 0x1009
     byte_offset: 7
     decode: uint16_be
+    accuracy_decimals: 0
+    state_class: total_increasing
+    entity_category: diagnostic
     icon: mdi:cup-water
 
+  - platform: gea
+    gea_id: gea_hub
     name: Crushed Ice Dispenses
     erd: 0x1102
     byte_offset: 0
@@ -252,6 +257,9 @@ sensor:
     erd: 0x1102
     byte_offset: 2
     decode: uint16_be
+    accuracy_decimals: 0
+    state_class: total_increasing
+    entity_category: diagnostic
     icon: mdi:ice-pop
 
   - platform: gea
@@ -260,6 +268,9 @@ sensor:
     erd: 0x1102
     byte_offset: 4
     decode: uint16_be
+    accuracy_decimals: 0
+    state_class: total_increasing
+    entity_category: diagnostic
     icon: mdi:water
 
 #No hot water
@@ -277,6 +288,9 @@ sensor:
     erd: 0x1102
     byte_offset: 8
     decode: uint16_be
+    accuracy_decimals: 0
+    state_class: total_increasing
+    entity_category: diagnostic
     icon: mdi:snowflake
 
   - platform: gea
@@ -285,6 +299,9 @@ sensor:
     erd: 0x1102
     byte_offset: 10
     decode: uint16_be
+    accuracy_decimals: 0
+    state_class: total_increasing
+    entity_category: diagnostic
     icon: mdi:snowflake
 
   - platform: gea
@@ -343,25 +360,40 @@ sensor:
     erd: 0x1101
     byte_offset: 10
     decode: uint16_be
+    accuracy_decimals: 0
+    state_class: total_increasing
+    entity_category: diagnostic
     icon: mdi:counter
 
 # ---------------------------------------------------------------------------
 
-  - platform: gea
-    gea_id: gea_hub
-    name: Freezer Top Door Open Count
-    erd: 0x1101
-    byte_offset: 12
-    decode: uint16_be
-    icon: mdi:counter
+# ---------------------------------------------------------------------------
+#  erd: 0x1101 - Freezer Top/Bottom Door Open Count
+#  This model only has one freezer door
+# 
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Freezer Top Door Open Count
+#    erd: 0x1101
+#    byte_offset: 12
+#    decode: uint16_be
+#    accuracy_decimals: 0
+#    state_class: total_increasing
+#    entity_category: diagnostic
+#    icon: mdi:counter
 
   - platform: gea
     gea_id: gea_hub
-    name: Freezer Bottom Door Open Count
+#    name: Freezer Bottom Door Open Count
+    name: Freezer Door Open Count
     erd: 0x1101
     byte_offset: 14
     decode: uint16_be
+    accuracy_decimals: 0
+    state_class: total_increasing
+    entity_category: diagnostic
     icon: mdi:counter
+# ---------------------------------------------------------------------------
 
   - platform: gea
     gea_id: gea_hub
@@ -791,7 +823,6 @@ text_sensor:
 #  combined into offset 0 if either door opens then only Offset zero updates
 #  Commented them out and combinded them
 # 
-# 
 #  - platform: gea
 #    gea_id: gea_hub
 #    name: Fresh Food Right Door Status
@@ -826,16 +857,19 @@ text_sensor:
       255: Not Applicable
 # ---------------------------------------------------------------------------
 
-  - platform: gea
-    gea_id: gea_hub
-    name: Convertible Drawer Status
-    erd: 0x1016
-    byte_offset: 3
-    decode: uint8
-    options:
-      0: Closed
-      1: Open
-      255: Not Applicable
+# ---------------------------------------------------------------------------
+#  There is no convertible draw in this model
+#
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Convertible Drawer Status
+#    erd: 0x1016
+#    byte_offset: 3
+#    decode: uint8
+#    options:
+#      0: Closed
+#      1: Open
+#      255: Not Applicable
 
 # These result in 255 - there is only one ice maker and it has a physical on off switch
 #  - platform: gea
@@ -919,11 +953,15 @@ binary_sensor:
     erd: 0x1006
     bitmask: 0x02
 
-  - platform: gea
-    gea_id: gea_hub
-    name: Convertible Drawer Alarm
-    erd: 0x1006
-    bitmask: 0x04
+# ---------------------------------------------------------------------------
+#  There is no convertible draw in this model
+#
+#  - platform: gea
+#    gea_id: gea_hub
+#    name: Convertible Drawer Alarm
+#    erd: 0x1006
+#    bitmask: 0x04
+# ---------------------------------------------------------------------------
 
   - platform: gea
     gea_id: gea_hub
