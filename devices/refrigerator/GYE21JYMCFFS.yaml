@@ -91,6 +91,7 @@ gea:
   uart_id: uart_gea
   protocol: gea2
   dest_address: 0xF0
+  erd_lookup: true
 
 # ---------------------------------------------------------------------------
 # Numbers (read-write numeric ERDs)
@@ -343,7 +344,7 @@ sensor:
 #  This model doesn't report left and right fresh food doors opening.  This is
 #  doing a of a fresh food section opened count and not individual
 #  Combined into one
-# 
+#
 #  - platform: gea
 #    gea_id: gea_hub
 #    name: Fresh Food Left Door Open Count
@@ -376,7 +377,7 @@ sensor:
 # ---------------------------------------------------------------------------
 #  erd: 0x1101 - Freezer Top/Bottom Door Open Count
 #  This model only has one freezer door
-# 
+#
 #  - platform: gea
 #    gea_id: gea_hub
 #    name: Freezer Top Door Open Count
@@ -522,7 +523,7 @@ sensor:
     name: Last Cycle Fault Count
     erd: 0x1103
     byte_offset: 16
-    decode: uint8    
+    decode: uint8
     entity_category: diagnostic
 
   - platform: gea
@@ -828,7 +829,7 @@ text_sensor:
 #  This model doesn't report left and right fresh food doors status.  They are
 #  combined into offset 0 if either door opens then only Offset zero updates
 #  Commented them out and combinded them
-# 
+#
 #  - platform: gea
 #    gea_id: gea_hub
 #    name: Fresh Food Right Door Status
@@ -912,7 +913,6 @@ select:
     options:
       0: Disable
       1: Enable
-      255: Not Applicable
 
   - platform: gea
     gea_id: gea_hub
@@ -1002,4 +1002,3 @@ binary_sensor:
 #    erd: 0x1007
 #    bitmask: 0x02
 # ---------------------------------------------------------------------------
-
